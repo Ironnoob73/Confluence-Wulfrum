@@ -1,5 +1,10 @@
 {
   "confluence_wulfrum.name": "Confluence: Breath of the Wulfrum",
 
-  "item.confluence_wulfrum.wulfrum_scrap": "Wulfrum Scrap"
+  "item.confluence_wulfrum.wulfrum_scrap": "Wulfrum Scrap",
+  "block.confluence_wulfrum.wulfrum_plating": "Wulfrum Plating",
+  "item.confluence_wulfrum.energy_core": "Energy Core",
+  "item.confluence_wulfrum.wulfrum_battery": "Wulfrum Battery",
+  "tooltip.item.confluence_wulfrum.wulfrum_battery.0": "Wulfrum Battery",
+  "tooltip.item.confluence_wulfrum.wulfrum_battery.1": "也可以通过提炼机进行拆分"
 }

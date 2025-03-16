@@ -1,7 +1,13 @@
 package dev.hail.wulfrum;
 
 import dev.hail.wulfrum.block.CWBlocks;
+import dev.hail.wulfrum.client.CWClientEvent;
 import dev.hail.wulfrum.item.CWItems;
+import net.minecraft.resources.ResourceLocation;
+import net.neoforged.fml.ModList;
+import org.confluence.mod.Confluence;
+import org.confluence.mod.client.connected.ModConnectives;
+import org.confluence.mod.client.event.ModClientSetups;
 import org.slf4j.Logger;
 
 import com.mojang.logging.LogUtils;
@@ -36,6 +42,8 @@ import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
+import java.util.function.Consumer;
+
 // The value here should match an entry in the META-INF/neoforge.mods.toml file
 @Mod(WulfrumMod.MODID)
 public class WulfrumMod
@@ -48,7 +56,9 @@ public class WulfrumMod
             .icon(() -> CWItems.WULFRUM_SCRAP.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
                 output.accept(CWItems.WULFRUM_SCRAP.get());
-                output.accept(CWBlocks.EXAMPLE_BLOCK_ITEM.get());
+                output.accept(CWItems.ENERGY_CORE.get());
+                output.accept(CWItems.WULFRUM_BATTERY.get());
+                output.accept(CWBlocks.WULFRUM_PLATING.get().asItem());
             }).build());
 
     public WulfrumMod(IEventBus modEventBus, ModContainer modContainer)
@@ -66,6 +76,9 @@ public class WulfrumMod
         modContainer.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
+    public static ResourceLocation asResource(String path) {
+        return ResourceLocation.fromNamespaceAndPath("confluence_wulfrum", path);
+    }
     private void commonSetup(final FMLCommonSetupEvent event)
     {
     }
@@ -85,6 +98,13 @@ public class WulfrumMod
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event)
         {
+            eventBus(CWClientEvent::register);
         }
+    }
+    static void eventBus(Consumer<IEventBus> consumer) {
+        ModList.get().getModContainerById(Confluence.MODID).ifPresent(container -> {
+            IEventBus eventBus = container.getEventBus();
+            if (eventBus != null) consumer.accept(eventBus);
+        });
     }
 }

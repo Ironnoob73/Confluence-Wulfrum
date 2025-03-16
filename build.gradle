@@ -66,6 +66,9 @@ dependencies {
     implementation "curse.maven:jei-238222:5846880"
     implementation "curse.maven:curios-309927:6296219"
     implementation "curse.maven:confluence-1209464:6299910"
+
+    compileOnly "curse.maven:terra-curio-1027625:6299244"
+    implementation files('D:/minecraft/forge_development/confluence/TerraGuns/build/libs/terra_guns-1.21.1-0.0.1.jar')
 }
 
 
