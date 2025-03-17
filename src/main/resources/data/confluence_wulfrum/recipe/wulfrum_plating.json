@@ -1,0 +1,22 @@
+{
+    "type": "confluence:heavy_work_bench",
+    "pattern": [
+        "#A"
+    ],
+    "key": {
+        "#": {
+            "type": "terra_curio:amount_ingredient",
+            "ingredient": {
+                "tag": "minecraft:stone_crafting_materials"
+            },
+            "count": 25
+        },
+        "A": {
+            "item": "confluence_wulfrum:wulfrum_scrap"
+        }
+    },
+    "result": {
+        "id": "confluence_wulfrum:wulfrum_plating",
+        "count": 25
+    }
+}

@@ -11,7 +11,6 @@ import org.confluence.terra_curio.api.primitive.ValueType;
 import org.confluence.terra_curio.common.component.ModRarity;
 import org.confluence.terra_curio.common.init.TCAttributes;
 import org.confluence.terra_curio.common.item.curio.BaseCurioItem;
-import org.confluence.terra_guns.common.item.bullet.AmmoItem;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -21,7 +20,7 @@ import static org.confluence.terra_curio.common.component.AccessoriesComponent.u
 
 public class CWItems {
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(WulfrumMod.MODID);
-    public static final DeferredItem<Item> WULFRUM_SCRAP = ITEMS.registerItem("wulfrum_scrap", properties -> new AmmoItem(7.0F, 4.0F, 2.0F, 0));
+    public static final DeferredItem<Item> WULFRUM_SCRAP = register("wulfrum_scrap", ModRarity.BLUE);
     public static final DeferredItem<Item> ENERGY_CORE = register("energy_core", ModRarity.BLUE);
     public static final ValueType<Unit, UnitValue> WULFRUM$BATTERY = ValueType.ofUnit("wulfrum_battery");
     public static final Supplier<BaseCurioItem> WULFRUM_BATTERY = registerCurio("wulfrum_battery", builder -> builder
