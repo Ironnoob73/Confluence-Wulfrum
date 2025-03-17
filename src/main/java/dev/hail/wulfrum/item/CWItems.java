@@ -29,6 +29,8 @@ public class CWItems {
             .attribute(TCAttributes.getMagicDamage(), 0.07, ADD_MULTIPLIED_TOTAL)
             .tooltips(1));
 
+    public static final Supplier<CWBlunderbussItem> WULFRUM_BLUNDERBUSS = ITEMS.registerItem("wulfrum_blunderbuss", properties -> new CWBlunderbussItem(new Item.Properties().durability(30), ModRarity.BLUE, 7.3F, 75, 25, 2.25F, 0.04F, 10));
+
     public static DeferredItem<Item> register(String id, ModRarity rarity) {
         return ITEMS.register(id, () -> new CustomRarityItem(rarity));
     }

@@ -42,6 +42,7 @@ public class WulfrumMod
                 output.accept(CWItems.ENERGY_CORE.get());
                 output.accept(CWItems.WULFRUM_BATTERY.get());
                 output.accept(CWBlocks.WULFRUM_PLATING.get().asItem());
+                output.accept(CWItems.WULFRUM_BLUNDERBUSS.get());
             }).build());
 
     public WulfrumMod(IEventBus modEventBus, ModContainer modContainer)
