@@ -17,6 +17,8 @@ import net.minecraft.world.entity.ai.goal.GoalSelector;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.navigation.FlyingPathNavigation;
+import net.minecraft.world.entity.ai.navigation.PathNavigation;
 import net.minecraft.world.entity.ai.util.AirAndWaterRandomPos;
 import net.minecraft.world.entity.ai.util.HoverRandomPos;
 import net.minecraft.world.entity.animal.FlyingAnimal;
@@ -47,7 +49,6 @@ import java.util.EnumSet;
 public class CWHovercraft extends AbstractMonster implements Enemy, FlyingAnimal, GeoEntity, DeathAnimOptions {
     protected  int attackInternal = 20;
     private final AnimatableInstanceCache CACHE = GeckoLibUtil.createInstanceCache(this);
-    public DemonEyeSurroundTargetGoal surroundTargetGoal;
 
     public CWHovercraft(EntityType<? extends CWHovercraft> entityType, Level level, Builder builder) {
         super(entityType, level, builder);
@@ -157,31 +158,7 @@ public class CWHovercraft extends AbstractMonster implements Enemy, FlyingAnimal
             }
         }
     }
-    @Override
-    public void move(@NotNull MoverType pType, @NotNull Vec3 motion) {
-        if (dead) {
-            super.move(pType, motion);
-            return;
-        }
 
-        Vec3 collide = ((EntityAccessor) this).callCollide(motion);
-        if (collide.x != motion.x) {
-            motion = new Vec3(motion.x < 0 ? 0.22 : -0.22, motion.y, motion.z);
-        }
-        if (collide.y != motion.y) {
-            boolean downward = motion.y < 0;
-            motion = new Vec3(motion.x, downward ? Mth.clamp(-motion.y, 0.1, 0.22) : Mth.clamp(-motion.y, -0.22, -0.1), motion.z);
-            if (surroundTargetGoal.targetPos != null && getTarget() != null) {
-                surroundTargetGoal.targetPos = surroundTargetGoal.targetPos.with(Direction.Axis.Y, getTarget().position().y + (downward ? 2 : -1));
-            }
-        }
-        if (collide.z != motion.z) {
-            motion = new Vec3(motion.x, motion.y, motion.z < 0 ? 0.3 : -0.3);
-        }
-
-        setDeltaMovement(motion);
-        super.move(pType, motion);
-    }
     @Override
     public void tick() {
         // TODO: 仇恨值
@@ -192,6 +169,23 @@ public class CWHovercraft extends AbstractMonster implements Enemy, FlyingAnimal
         TEUtils.updateEntityRotation(this, this.getDeltaMovement().multiply(1, -1, 1));
 
     }
+    @Override
+    protected PathNavigation createNavigation(Level p_level) {
+        FlyingPathNavigation flyingpathnavigation = new FlyingPathNavigation(this, p_level) {
+            public boolean isStableDestination(BlockPos p_27947_) {
+                return !this.level.getBlockState(p_27947_.below()).isAir();
+            }
+
+            public void tick() {
+                super.tick();
+            }
+        };
+        flyingpathnavigation.setCanOpenDoors(false);
+        flyingpathnavigation.setCanFloat(false);
+        flyingpathnavigation.setCanPassDoors(true);
+        return flyingpathnavigation;
+    }
+
 
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
