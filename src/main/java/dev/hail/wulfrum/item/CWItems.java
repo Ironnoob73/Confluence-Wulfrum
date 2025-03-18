@@ -1,6 +1,7 @@
 package dev.hail.wulfrum.item;
 
 import dev.hail.wulfrum.WulfrumMod;
+import dev.hail.wulfrum.entity.CWEntities;
 import net.minecraft.util.Unit;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.registries.DeferredItem;
@@ -11,6 +12,8 @@ import org.confluence.terra_curio.api.primitive.ValueType;
 import org.confluence.terra_curio.common.component.ModRarity;
 import org.confluence.terra_curio.common.init.TCAttributes;
 import org.confluence.terra_curio.common.item.curio.BaseCurioItem;
+import org.confluence.terraentity.init.TEEntities;
+import org.confluence.terraentity.init.TEItems;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -30,6 +33,8 @@ public class CWItems {
             .tooltips(1));
 
     public static final Supplier<CWBlunderbussItem> WULFRUM_BLUNDERBUSS = ITEMS.registerItem("wulfrum_blunderbuss", properties -> new CWBlunderbussItem(new Item.Properties().durability(30), ModRarity.BLUE, 7.3F, 75, 25, 2.25F, 0.04F, 10));
+
+    public static final DeferredItem<Item> WULFRUM_HOVERCRAFT_SPAWN_EGG = TEItems.registerEgg("wulfrum_hovercraft_spawn_egg", CWEntities.WULFRUM_HOVERCRAFT, 0xffffff, 0xab0d0d);
 
     public static DeferredItem<Item> register(String id, ModRarity rarity) {
         return ITEMS.register(id, () -> new CustomRarityItem(rarity));

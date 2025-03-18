@@ -7,5 +7,6 @@
   "item.confluence_wulfrum.wulfrum_battery": "Wulfrum Battery",
   "tooltip.item.confluence_wulfrum.wulfrum_battery.0": "50% chance to get an extra scrap when killing wulfrum robots",
   "tooltip.item.terra_curio.wulfrum_battery.1": "Can also be scrapped at an extractinator",
-  "item.confluence_wulfrum.wulfrum_blunderbuss": "Wulfrum Blunderbuss"
+  "item.confluence_wulfrum.wulfrum_blunderbuss": "Wulfrum Blunderbuss",
+  "item.confluence_wulfrum.wulfrum_blunderbuss.tooltip": "Every thirty rounds consumes one Wulfrum Scrap or Silver Coin"
 }

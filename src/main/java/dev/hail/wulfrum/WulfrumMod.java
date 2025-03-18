@@ -3,10 +3,16 @@ package dev.hail.wulfrum;
 import com.mojang.logging.LogUtils;
 import dev.hail.wulfrum.block.CWBlocks;
 import dev.hail.wulfrum.client.CWClientEvent;
+import dev.hail.wulfrum.entity.CWEntities;
+import dev.hail.wulfrum.entity.CWHovercraft;
+import dev.hail.wulfrum.entity.CWHovercraftRenderer;
 import dev.hail.wulfrum.item.CWItems;
+import net.minecraft.client.renderer.entity.AllayRenderer;
+import net.minecraft.client.renderer.entity.PhantomRenderer;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
@@ -18,12 +24,16 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
+import net.neoforged.neoforge.event.entity.EntityAttributeCreationEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import org.confluence.mod.Confluence;
+import org.confluence.terraentity.client.entity.renderer.GeoNormalRenderer;
+import org.confluence.terraentity.entity.monster.demoneye.DemonEye;
 import org.slf4j.Logger;
 
 import java.util.function.Consumer;
@@ -43,6 +53,7 @@ public class WulfrumMod
                 output.accept(CWItems.WULFRUM_BATTERY.get());
                 output.accept(CWBlocks.WULFRUM_PLATING.get().asItem());
                 output.accept(CWItems.WULFRUM_BLUNDERBUSS.get());
+                output.accept(CWItems.WULFRUM_HOVERCRAFT_SPAWN_EGG.get());
             }).build());
 
     public WulfrumMod(IEventBus modEventBus, ModContainer modContainer)
@@ -51,6 +62,7 @@ public class WulfrumMod
 
         CWBlocks.BLOCKS.register(modEventBus);
         CWItems.ITEMS.register(modEventBus);
+        CWEntities.ENTITIES.register(modEventBus);
         CREATIVE_MODE_TABS.register(modEventBus);
 
         NeoForge.EVENT_BUS.register(this);
@@ -83,6 +95,15 @@ public class WulfrumMod
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             eventBus(CWClientEvent::register);
+        }
+        @SubscribeEvent
+        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event)
+        {
+            event.registerEntityRenderer(CWEntities.WULFRUM_HOVERCRAFT.get(), CWHovercraftRenderer::new);
+        }
+        @SubscribeEvent
+        public static void registerEntityAttributes(EntityAttributeCreationEvent event) {
+            event.put(CWEntities.WULFRUM_HOVERCRAFT.get(), CWHovercraft.createAttributes().build());
         }
     }
     static void eventBus(Consumer<IEventBus> consumer) {

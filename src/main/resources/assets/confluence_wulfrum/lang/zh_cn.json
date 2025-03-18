@@ -7,5 +7,6 @@
   "item.confluence_wulfrum.wulfrum_battery": "钨钢电池",
   "tooltip.item.confluence_wulfrum.wulfrum_battery.0": "击杀钨钢机器人时有50%几率获得额外的碎片",
   "tooltip.item.terra_curio.wulfrum_battery.1": "也可以通过提炼机进行拆分",
-  "item.confluence_wulfrum.wulfrum_blunderbuss": "钨钢火铳"
+  "item.confluence_wulfrum.wulfrum_blunderbuss": "钨钢火铳",
+  "item.confluence_wulfrum.wulfrum_blunderbuss.tooltip": "每三十发消耗一个钨钢废料或银币"
 }
