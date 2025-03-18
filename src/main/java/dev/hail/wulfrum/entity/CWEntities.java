@@ -11,7 +11,8 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class CWEntities {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(BuiltInRegistries.ENTITY_TYPE, WulfrumMod.MODID);
 
-    public static final DeferredHolder<EntityType<?>, EntityType<CWHovercraft>> WULFRUM_HOVERCRAFT = registerEntity("wulfrum_hovercraft", (e,l)->new CWHovercraft(e,l, CWPrefab.HOVERCRAFT_BUILDER.get().setHealth(15)),1.0F, 0.5F);
+    public static final DeferredHolder<EntityType<?>, EntityType<CWHovercraft>> WULFRUM_HOVERCRAFT = registerEntity("wulfrum_hovercraft", (EntityType.EntityFactory<CWHovercraft>) CWHovercraft::new,1.0F, 0.5F);
+
     public static <T extends Mob> DeferredHolder<EntityType<?>, EntityType<T>> registerEntity(String name, EntityType.EntityFactory<T> entityFactory, float width, float height) {
         return registerEntity(name, entityFactory, MobCategory.MONSTER, width, height);
     }

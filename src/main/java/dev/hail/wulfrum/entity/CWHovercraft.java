@@ -7,34 +7,55 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MoverType;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.FlyingMoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
 import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.monster.Enemy;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import org.confluence.terraentity.entity.monster.AbstractMonster;
 import org.confluence.terraentity.entity.monster.demoneye.DemonEyeSurroundTargetGoal;
 import org.confluence.terraentity.entity.monster.demoneye.DemonEyeWanderGoal;
+import org.confluence.terraentity.entity.util.DeathAnimOptions;
 import org.confluence.terraentity.mixin.accessor.EntityAccessor;
 import org.confluence.terraentity.utils.TEUtils;
 import org.jetbrains.annotations.NotNull;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
 import software.bernie.geckolib.animation.AnimationController;
 import software.bernie.geckolib.animation.RawAnimation;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class CWHovercraft extends AbstractMonster implements Enemy, FlyingAnimal {
-
+public class CWHovercraft extends Monster implements Enemy, FlyingAnimal, GeoEntity, DeathAnimOptions {
+    private final AnimatableInstanceCache CACHE = GeckoLibUtil.createInstanceCache(this);
     public DemonEyeSurroundTargetGoal surroundTargetGoal;
-    public CWHovercraft(EntityType<? extends CWHovercraft> entityType, Level level, Builder builder) {
-        super(entityType, level, builder);
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Monster.createMonsterAttributes()
+                .add(Attributes.MAX_HEALTH)
+                .add(Attributes.ATTACK_DAMAGE)
+                .add(Attributes.ARMOR)
+                .add(Attributes.MOVEMENT_SPEED);
+    }
+
+
+    public CWHovercraft(EntityType<? extends CWHovercraft> entityType, Level level) {
+        super(entityType, level);
         this.moveControl = new FlyingMoveControl(this, 20, true);
     }
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
         controllers.add(new AnimationController<>(this, state -> state.setAndContinue(RawAnimation.begin().thenLoop("fly"))));
+    }
+
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return CACHE;
     }
 
     @Override
