@@ -19,6 +19,7 @@ import net.minecraft.world.phys.Vec3;
 import org.confluence.terraentity.entity.monster.AbstractMonster;
 import org.confluence.terraentity.entity.monster.demoneye.DemonEyeSurroundTargetGoal;
 import org.confluence.terraentity.entity.util.DeathAnimOptions;
+import org.jetbrains.annotations.NotNull;
 import software.bernie.geckolib.animatable.GeoEntity;
 import software.bernie.geckolib.animatable.instance.AnimatableInstanceCache;
 import software.bernie.geckolib.animation.AnimatableManager;
@@ -29,10 +30,7 @@ import software.bernie.geckolib.util.GeckoLibUtil;
 import java.util.EnumSet;
 
 public class CWHovercraft extends AbstractMonster implements Enemy, GeoEntity, DeathAnimOptions {
-    protected int attackInternal = 20;
     AttackPhase attackPhase = AttackPhase.CIRCLE;
-    Vec3 moveTargetPoint = Vec3.ZERO;
-    BlockPos anchorPoint = BlockPos.ZERO;
     private final AnimatableInstanceCache CACHE = GeckoLibUtil.createInstanceCache(this);
 
     public CWHovercraft(EntityType<? extends CWHovercraft> entityType, Level level, Builder builder) {
@@ -41,7 +39,7 @@ public class CWHovercraft extends AbstractMonster implements Enemy, GeoEntity, D
     }
 
     @Override
-    protected void checkFallDamage(double y, boolean onGround, BlockState state, BlockPos pos) {
+    protected void checkFallDamage(double y, boolean onGround, @NotNull BlockState state, @NotNull BlockPos pos) {
     }
 
     @Override
@@ -49,11 +47,6 @@ public class CWHovercraft extends AbstractMonster implements Enemy, GeoEntity, D
         goalSelector.addGoal(1, new HIdleGoal());
         goalSelector.addGoal(2, new HFloatGoal());
         goalSelector.addGoal(3, new HSurroundTargetGoal(this));
-        //goalSelector.addGoal(2, new AttackStrategyGoal());
-        //goalSelector.addGoal(3, new MeleeAttackGoal(this, 0.5, false));
-        //goalSelector.addGoal(2, new SweepAttackGoal());
-        //goalSelector.addGoal(3, new CircleAroundAnchorGoal());
-        //goalSelector.addGoal(4, new KeepOnTargetGoal(this));
 
         registerTargetGoal(targetSelector);
     }
@@ -103,7 +96,7 @@ public class CWHovercraft extends AbstractMonster implements Enemy, GeoEntity, D
             if (getTarget() != null){
                 lookControl.setLookAt(getTarget());
                 lookAt(getTarget(), 360, 360);
-                setDeltaMovement(new Vec3(0, getTarget().position().y + 5 - position().y, 0));
+                setDeltaMovement(new Vec3(0, (getTarget().position().y + 5 - position().y) * 0.1, 0));
             }
         }
         @Override
@@ -151,8 +144,7 @@ public class CWHovercraft extends AbstractMonster implements Enemy, GeoEntity, D
         return flyingpathnavigation;
     }
 
-    class HMoveControl extends MoveControl {
-        private float speed = 0.1F;
+    static class HMoveControl extends MoveControl {
 
         public HMoveControl(Mob mob) {
             super(mob);

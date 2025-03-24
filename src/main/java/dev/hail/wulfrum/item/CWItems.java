@@ -12,7 +12,6 @@ import org.confluence.terra_curio.api.primitive.ValueType;
 import org.confluence.terra_curio.common.component.ModRarity;
 import org.confluence.terra_curio.common.init.TCAttributes;
 import org.confluence.terra_curio.common.item.curio.BaseCurioItem;
-import org.confluence.terraentity.init.TEEntities;
 import org.confluence.terraentity.init.TEItems;
 
 import java.util.function.Consumer;
