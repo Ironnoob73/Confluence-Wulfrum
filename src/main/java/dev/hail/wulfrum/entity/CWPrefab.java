@@ -13,5 +13,5 @@ public class CWPrefab extends AbstractPrefab {
     public static Supplier<AbstractMonster.Builder> HOVERCRAFT_BUILDER = () ->
             (new AbstractPrefab(15, 4, 12, 32, 0.0F, 0.9F))
                     .getPrefab().setHurtSound(TESounds.ROUTINE_HURT).setDeathSound(TESounds.ROUTINE_DEATH)
-                    .setMovementSpeed(0.5F);
+                    .setMovementSpeed(0.5F).setNoAttachAttack().setNoGravity();
 }
